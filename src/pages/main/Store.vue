@@ -3,7 +3,12 @@
     <el-col :span="24" style="background: #fff;">
       <div class="grid-content bg-purple-dark title" style="background: #fff;">
         <h1>店铺管理</h1>
-        <el-button @click="savechange" type="primary" style="height:40px;line-height:18px">保存</el-button>
+        <el-button
+          @click="savechange"
+          type="primary"
+          style="height:40px;line-height:18px"
+          size="mini"
+        >保存</el-button>
       </div>
       <div class="storyCon">
         <div style="margin: 20px 0;"></div>
@@ -34,7 +39,7 @@
           >
             <img
               style="width:146px;height:146px"
-              :src="GET_STORE_IMG+this.avatar"
+              :src="avatar == '' ? '' : GET_STORE_IMG + avatar"
               class="avatar"
             />
 
@@ -48,7 +53,7 @@
             :action="UPDATE_STORE_IMG"
             list-type="picture-card"
             :on-success="picUpdate"
-            :on-remove="handleRemove"
+            :on-remove="imgRemove"
             :file-list="shopimgs"
             style="display: inline-block;margin-left: 20px;"
           >
@@ -111,18 +116,18 @@
 </template>
 
 <script>
-// , shopupload, shopedit
 import {
   shopinfo,
   GET_STORE_IMG,
   UPDATE_STORE_IMG,
   shopedit,
 } from "@/api/apis";
+import { getChaintime } from "@/utils/utils";
 export default {
   data() {
     return {
       dialogVisible: false,
-      supports: false,
+      // supports: false,
 
       deliveryPrice: "",
       deliveryTime: "",
@@ -134,11 +139,12 @@ export default {
       date: "",
       //复杂参数
       pics: [],
-      avatar: [],
+      avatar: "",
       supports: [],
       //回填照片墙
       shopimgs: [],
       // 上传图片
+      imgUrl: "",
       imageUrl: "",
       GET_STORE_IMG: "",
       UPDATE_STORE_IMG: "",
@@ -149,10 +155,10 @@ export default {
       (this.UPDATE_STORE_IMG = UPDATE_STORE_IMG);
     // 获取店铺详情  数据回填
     shopinfo().then((res) => {
-      console.log(res);
+      // console.log(res.data.data.date);
       let arr = res.data.data;
       for (let key in arr) {
-        console.log(key); //遍历一个数组取到属性名
+        //console.log(key); //遍历一个数组取到属性名
         this[key] = arr[key];
       }
       //照片墙回填
@@ -162,35 +168,72 @@ export default {
           url: GET_STORE_IMG + imgstr,
         };
       });
-      this.deliveryPrice = arr.deliveryPrice + "元";
-      this.deliveryTime = arr.deliveryTime + "分钟";
-      this.sellCount = arr.sellCount + "份";
-      this.score = arr.score + "分";
     });
   },
   methods: {
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
     handlePictureCardPreview(file) {
       this.pics = file.url;
       this.dialogVisible = true;
     },
     //店铺头像上传成功
     headerUpdateSuc(res) {
-      console.log(res);
+      if (res.code == 0) {
+        this.avatar = res.imgUrl;
+        this.$message({
+          type: "success",
+          message: "头像上传成功！",
+        });
+      }
     },
     //店铺图片上传成功
     picUpdate(res) {
-      console.log(res);
+      if (res.code == 0) {
+        this.avatar = res.imgUrl;
+        this.$message({
+          type: "success",
+          message: "店铺图片上传成功！",
+        });
+      }
     },
-    // 店铺内容修改
+    //删除照片墙照片
+    imgRemove(res) {
+      //console.log(res.name); //res.name=1590480886706.webp
+      this.pics.splice(this.pics.indexOf(res.name), 1);
+      // console.log(this.pics);
+    },
+    // 修改店铺内容
+
     savechange() {
-      shopedit({}).then(() => {
-        // if(res.data.code==0){
-        // }
-        // console.log(res);
+      var params = {
+        id: this.id,
+        name: this.name,
+        bulletin: this.bulletin,
+        avatar: this.avatar,
+        deliveryPrice: this.deliveryPrice,
+        deliveryTime: this.deliveryTime,
+        description: this.description,
+        score: this.score,
+        sellCount: this.sellCount,
+        //字符串数组
+        // date:this.date,
+        date: JSON.stringify([
+          getChaintime(this.date[0]),
+          getChaintime(this.date[1]),
+        ]),
+        supports: JSON.stringify(this.supports),
+        pics: JSON.stringify(this.pics),
+      };
+
+      // console.log(params);
+      shopedit(params).then((res) => {
+        if (res.data.code == 0) {
+          this.$message({
+            type: "success",
+            message: "店铺信息修改成功！",
+          });
+        }
       });
+      console.log(this.supports);
     },
   },
 };

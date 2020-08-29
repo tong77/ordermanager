@@ -30,8 +30,8 @@
         :on-success="handleAvatarSuccess"
         :data="uploaddata"
       >
-        <!-- <img v-if="imageUrl" :src="imageUrl" class="avatar" /> -->
-        <i class="el-icon-plus avatar-uploader-icon"></i>
+        <img v-if="headerimg" :src="headerimg" class="avatar" />
+        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
       </el-upload>
     </div>
   </div>
@@ -44,12 +44,14 @@ import { getChaintime } from "@/utils/utils";
 export default {
   data() {
     return {
+      // GET_ACC_IMG:'',
       updataid: "",
       id: "",
       account: "",
       userGroup: "",
       ctime: "",
       uploaddata: "",
+      headerimg:''
     };
   },
   methods: {
@@ -69,7 +71,7 @@ export default {
         this.id = res.data.accountInfo.id;
         this.account = res.data.accountInfo.account;
         this.userGroup =
-          res.data.accountInfo.userGroup == "选项一"
+          res.data.accountInfo.userGroup == "选项1"
             ? (res.data.accountInfo.userGroup = "超级管理者")
             : (res.data.accountInfo.userGroup = "普通管理者");
         this.ctime = getChaintime(res.data.accountInfo.ctime);
@@ -78,6 +80,10 @@ export default {
     },
   },
   created() {
+    
+    this.headerimg=localStorage.header
+    console.log(this.headerimg);
+    // this.GET_ACC_IMG=GET_ACC_IMG
     this.infolist();
     this.uploaddata = { id: localStorage.id };
   },

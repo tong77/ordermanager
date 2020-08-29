@@ -2,7 +2,7 @@
   <div>
     <el-row :gutter="20">
       <el-col :span="6">
-        <div class="grid-content bg-purple" style>
+        <div class="grid-content bg-purple" style="box-shadow: 1px 1px 10px #ccc;">
           <svg
             t="1596555668357"
             class="icon"
@@ -199,7 +199,7 @@ export default {
         myChart.setOption(option);
         //防止越界，重绘canvas
         window.onresize = myChart.resize;
-        myChart.setOption(option); //设置option
+        
       });
     },
   },
@@ -220,7 +220,9 @@ export default {
   background: #99a9bf;
 }
 .bg-purple {
+  box-shadow: 1px 1px 10px #ccc;
   background: #fff;
+   
 }
 .bg-purple-light {
   background: #e5e9f2;
@@ -239,5 +241,7 @@ export default {
 #myChart {
   background: #fff;
   padding: 20px;
+  box-shadow: 1px 1px 10px #ccc;
+  
 }
 </style>

@@ -2,6 +2,9 @@ import axios from 'axios'
 const IP = 'http://127.0.0.1:5000'
 axios.defaults.baseURL = IP
 
+//查看头像图片地址
+export const GET_ACC_IMG = IP + "/upload/imgs/acc_img/"
+
 // 上传商品图片的地址
 export const UPDATE_GOODS_IMG = IP + "/goods/goods_img_upload"
 // 查看商品图片的地址
@@ -34,7 +37,7 @@ export var deluser = (id) => axios.get('/users/del', { params: { id } })
 export var delallusers = (ids) => axios.get('/users/batchdel', { params: { ids } })
 //修改账号
 export var editueser = (id, account, userGroup) => axios.post('/users/edit', { id, account, userGroup })
-//7.检查旧密码是否正确
+//检查旧密码正确性
 export var checkoldpwd = (oldPwd, id) => axios.get('/users/checkoldpwd', { params: { oldPwd, id } })
 //修改密码
 export var editpwd = (newPwd, id) => axios.post('/users/editpwd', { newPwd, id })
@@ -84,8 +87,8 @@ export var shopupload = () => axios.post('/shop/upload')
 export var shopedit = (params) => axios.post('/shop/edit',params)
 
 
-
-// /order/totaldata
+//---------------------------------------统计视图------------------------------------------
+// 首页报表接口
 export var totaldata = () => axios.get('/order/totaldata')
-// /order/ordertota
-export var ordertota = (date) => axios.get('/order/ordertota',{params:{date}})
+// 订单报表接口
+export var ordertota = (date) => axios.get('/order/ordertotal',{params:{date}})

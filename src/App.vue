@@ -1,14 +1,11 @@
 <template>
  <router-view></router-view>
 </template>
-
 <script>
 export default {
   methods: {},
 };
 </script>
-
-
 
 <style>
 /* 写全局样式以及重置样式 */
