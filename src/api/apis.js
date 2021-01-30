@@ -1,12 +1,18 @@
 import axios from 'axios'
-const IP = 'http://127.0.0.1:5000'
+const IP = 'http://123.57.15.80:8080'
 axios.defaults.baseURL = IP
+
+
+// 图片资源上传
+export const UPDATE_GOODS_IMG = IP + "/upload"
+
+
 
 //查看头像图片地址
 export const GET_ACC_IMG = IP + "/upload/imgs/acc_img/"
 
 // 上传商品图片的地址
-export const UPDATE_GOODS_IMG = IP + "/goods/goods_img_upload"
+// export const UPDATE_GOODS_IMG = IP + "/goods/goods_img_upload"
 // 查看商品图片的地址
 export const GET_GOODS_IMG = IP + "/upload/imgs/goods_img/"
 
@@ -14,10 +20,6 @@ export const GET_GOODS_IMG = IP + "/upload/imgs/goods_img/"
 export const UPDATE_STORE_IMG= IP + "/shop/upload"
 //查看店铺图片的地址
 export const GET_STORE_IMG= IP + "/upload/shop/"
-
-
-
-
 // ES5
 // export function login(account,password){
 //     return axios.post('/users/checkLogin',{account,password})

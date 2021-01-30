@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { checktoken, accountinfo } from "@/api/apis";
+// import { checktoken, accountinfo } from "@/api/apis";
 export default {
   data() {
     return {
@@ -93,25 +93,35 @@ export default {
         {
           url: "/main/order",
           icon: "el-icon-s-order",
-          name: "订单管理",
-          roles: ["super", "normal"],
-        },
-        {
-          url: "/main/qq",
-          icon: "el-icon-goods",
           name: "商品管理",
           roles: ["super", "normal"],
-          children: [
-            { url: "/main/list", name: "商品列表" },
-            { url: "/main/add", name: "商品添加" },
-            { url: "/main/classify", name: "商品分类" },
-          ],
         },
-        {
-          url: "/main/store",
-          icon: "el-icon-s-shop",
-          name: "店铺管理",
+        // {
+        //   url: "/main/qq",
+        //   icon: "el-icon-goods",
+        //   name: "商品管理",
+        //   roles: ["super", "normal"],
+        //   children: [
+        //     { url: "/main/list", name: "商品列表" },
+        //     { url: "/main/add", name: "商品添加" },
+        //     { url: "/main/classify", name: "商品分类" },
+        //   ],
+        // },
+        // {
+        //   url: "/main/store",
+        //   icon: "el-icon-s-shop",
+        //   name: "店铺管理",
+        //   roles: ["super", "normal"],
+        // },
+          {
+          url: "/main/upload",
+          icon: "el-icon-document-add",
+          name: "资源上传",
           roles: ["super", "normal"],
+          children: [
+            { url: "/main/heroupload", name: "英雄列表上传" },
+            { url: "/main/picupload", name: "图片列表上传" },
+          ],
         },
         {
           url: "/main/oee",
@@ -124,16 +134,17 @@ export default {
             { url: "/main/changeacc", name: "修改密码" },
           ],
         },
-        {
-          url: "/main/ttt",
-          icon: "el-icon-edit",
-          name: "销售统计",
-          roles: ["super", "normal"],
-          children: [
-            { url: "/main/goods", name: "商品统计" },
-            { url: "/main/salesorder", name: "订单统计" },
-          ],
-        },
+      
+        // {
+        //   url: "/main/ttt",
+        //   icon: "el-icon-edit",
+        //   name: "销售统计",
+        //   roles: ["super", "normal"],
+        //   children: [
+        //     { url: "/main/goods", name: "商品统计" },
+        //     { url: "/main/salesorder", name: "订单统计" },
+        //   ],
+        // },
       ],
     };
   },
@@ -143,12 +154,11 @@ export default {
     },
     //获取个人信息
     replayinfo() {
-      accountinfo(localStorage.id).then((res) => {
-        console.log(res.data.accountInfo.imgUrl);
-        // 头像添加
-        this.headerimgUrl = res.data.accountInfo.imgUrl;
-        localStorage.header=res.data.accountInfo.imgUrl
-});
+      // accountinfo(localStorage.id).then((res) => {
+      //   // 头像添加
+      //   this.headerimgUrl = res.data.accountInfo.imgUrl;
+      //   localStorage.header=res.data.accountInfo.imgUrl
+      // });
     },
     exit() {
       this.$router.push("/"); //跳转到登录页面
@@ -165,13 +175,13 @@ export default {
     });
     //点击导航时的样式状态保持
     this.curpath = this.$route.path;
-    checktoken(localStorage.token).then((res) => {
-      if (res.data.code == 0) {
-        this.acc = localStorage.acc;
-      } else {
-        this.acc = "请登录";
-      }
-    });
+    // checktoken(localStorage.token).then((res) => {
+    //   if (res.data.code == 0) {
+    //     this.acc = localStorage.acc;
+    //   } else {
+    //     this.acc = "请登录";
+    //   }
+    // });
     this.replayinfo();
   },
   watch: {
@@ -187,7 +197,8 @@ export default {
       // 根据用户权限进行运算，返回运算完毕的数组
       let newarr = this.list.filter((item) => {
         //返回包含此用户权限的数据
-        return item.roles.includes(localStorage.role);
+        return item.roles
+        ;
       });
 
       return newarr;

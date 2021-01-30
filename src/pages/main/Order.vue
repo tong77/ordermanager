@@ -52,6 +52,24 @@
           </template>
         </el-table-column>
       </el-table>
+      <div>
+
+               附件名称：<el-input v-model="addFileName" autocomplete="off" size="small" style="width: 300px;" ></el-input>
+                <div class="add-file-right" style="height:70px;margin-left:100px;margin-top:15px;">
+                    <div class="add-file-right-img" style="margin-left:70px;">上传文件：</div>
+                    <input type="file" ref="clearFile" @change="getFile($event)" multiple="multiplt" class="add-file-right-input" style="margin-left:70px;" accept=".docx,.doc,.pdf">
+                    <span class="add-file-right-more">支持扩展名：.doc .docx .pdf </span>
+                </div>
+                <div class="add-file-list">
+                    <ul>
+                        <li v-for="(item, index) in addArr" :key="index"><a >{{item.name}}</a></li>
+                    </ul>
+                </div>
+                <div slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="submitAddFile" size="small">开始上传</el-button>
+                    <el-button @click="resetAdd" size="small">全部删除</el-button>
+               </div>
+      </div>
       <!-- 编辑弹框 -->
       <el-dialog class="edit" title="收货地址" :visible.sync="dialogFormVisible">
         <el-form :model="form">
@@ -179,7 +197,7 @@ export default {
       allsee: [],
 
       form: {},
-    };
+    }
   },
   created() {
     this.getorderlist();

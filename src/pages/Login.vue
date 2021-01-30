@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { login } from "@/api/apis";
+// import { login } from "@/api/apis";
 
 export default {
   data() {
@@ -35,21 +35,22 @@ export default {
   },
   methods: {
     clickLogin() {
+      this.$router.push("/main/index"); //跳转到首页
         //接口验证
-        login(this.acc, this.pwd).then((res) => {
-          if (res.data.code == 0) {
-            localStorage.token = res.data.token; //写入限时登录时间
-            localStorage.role = res.data.role; //写入用户组
-            localStorage.acc = this.acc; //存入用户名
-            localStorage.id = res.data.id; //存入id
+        // login(this.acc, this.pwd).then((res) => {
+        //   if (res.data.code == 0) {
+        //     localStorage.token = res.data.token; //写入限时登录时间
+        //     localStorage.role = res.data.role; //写入用户组
+        //     localStorage.acc = this.acc; //存入用户名
+        //     localStorage.id = res.data.id; //存入id
 
-            this.$router.push("/main/index"); //跳转到首页
-            this.$message({
-              message: "用户登录成功!",
-              type: "success",
-            });
-          } else this.errmsg = res.data.msg;
-        });
+            
+        //     this.$message({
+        //       message: "用户登录成功!",
+        //       type: "success",
+        //     });
+        //   } else this.errmsg = res.data.msg;
+        // });
    
       
     },
@@ -78,20 +79,7 @@ export default {
     animation: mymove 1s ease-in-out alternate;
     overflow: hidden;
     transition: 1.5s;
-
-    // width: 350px;
-    // height: 300px;
-    // position: fixed;
-    // top: 0;
-    // bottom: 0;
-    // right: 0;
-    // left: 0;
-    // margin: auto;
     h1 {
-      // color: #fff;
-      // font-size: 14px;
-      // text-align: center;
-      // line-height: 100px;
 
       text-align: center;
       font-size: 24px;
